@@ -2,7 +2,7 @@
 
 // For storing user's theme selection in cookies
 function storeTheme(themeName) {
-    document.cookie = `theme=${themeName}`;
+    document.cookie = `theme=${themeName}; max-age=15`;
 }
 
 // For restoring theme from cookies, if selected by the user in the past
@@ -11,28 +11,17 @@ function restoreTheme() {
     if(theme) {
         setTheme(theme)
     }
-//     const cookieValue = document.cookie.split('; ')
-//     .find(el => el.startsWith('theme='))
-//     ?.split('=')[1];
-
-//   // If the `themeName` cookie is set, apply the theme
-//   if (cookieValue) {
-//     setTheme(cookieValue);
-//   }
 
 }
 //helper fuinction
 function splitCookie() {
-    const target = document.cookie.split("; ").find(el => el.startsWith("theme="))?.split("=")[1]
-    // if(target) {
-    //     return  cookie.split("=")[1];
-    // }
-    return target
+    return target = document.cookie.split("; ").find(el => el.startsWith("theme="))?.split("=")[1]
+
 }
 
 // For clearing theme selection from cookies (reset to default)
 function clearTheme() {
-    document.cookie = "theme=; expires=00:00:00"
+    document.cookie = "theme=; max-age=0"
 }
 
 /* ================================ PHASE 3 ================================ */
@@ -44,9 +33,12 @@ function storeName(displayName) {
 
 // For restoring user's display name from cookies, if set in the past
 function restoreName() {
-    let cookie = splitCookie();
-    if(cookie.displayName) {
-        setInputValue("display-name", cookie.displayName)
+    let name = document.cookie
+    .split("; ")
+    .find(pairString => pairString.startsWith("name"));
+
+    if (name) {
+        setInputValue("display-name", name.split("=")[1]);
     }
 }
 
